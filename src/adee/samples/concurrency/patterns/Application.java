@@ -7,10 +7,27 @@ import java.util.concurrent.TimeoutException;
 
 import adee.samples.concurrency.patterns.executors.LauncherService;
 import adee.samples.concurrency.patterns.executors.ThreadUtils;
+import adee.samples.concurrency.patterns.locking.User;
 
 public class Application {
 
 	public static void main(String[] args) {
+		// executorSamples();
+		lockingSamples();
+	}
+
+	private static void lockingSamples() {
+		User user = new adee.samples.concurrency.patterns.locking.User("adee");
+		Runnable task = () -> {
+			user.login();
+		};
+		Thread t1 = new Thread(task);
+		Thread t2 = new Thread(task);
+		t1.start();
+		t2.start();
+	}
+
+	private static void executorSamples() {
 		ThreadUtils.launchThread();
 
 		LauncherService.runSingleTask();
@@ -28,7 +45,6 @@ public class Application {
 		raiseExceptionFromFuture();
 
 		shutDownThreadPools();
-
 	}
 
 	private static void raiseExceptionFromFuture() {

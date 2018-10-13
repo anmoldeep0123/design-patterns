@@ -13,5 +13,4 @@ public class Application {
 		Watch fossil = new Fossil(digitalMode);
 		fossil.run();
 	}
-
 }
