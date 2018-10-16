@@ -4,10 +4,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import adee.samples.concurrency.patterns.executors.ThreadUtils;
 
@@ -19,7 +21,25 @@ public class Application {
 
 	public static void main(String[] args) {
 		// checkPrimeOneThread();
-		checkPrimeMultipleThreads();
+		// checkPrimeMultipleThreads();
+		startApplicationWithFourServices();
+	}
+
+	private static void startApplicationWithFourServices() {
+		CountDownLatch latch = new CountDownLatch(4);
+		ExecutorService pool = ThreadUtils.fixedThreadPool(4);
+		pool.submit(new ServiceWorker(latch, new Service1()));
+		pool.submit(new ServiceWorker(latch, new Service2()));
+		pool.submit(new ServiceWorker(latch, new Service3()));
+		pool.submit(new ServiceWorker(latch, new Service4()));
+
+		try {
+			latch.await(40, TimeUnit.SECONDS);
+			System.out.println("All Services have been started - Start the Application");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		pool.shutdown();
 	}
 
 	private static void checkPrimeMultipleThreads() {
@@ -33,12 +53,13 @@ public class Application {
 
 	private static void checkPrimeMultipleThreads(int barriers) {
 		List<Future<List<Integer>>> futures = new ArrayList<>();
+		CyclicBarrier barrier = new CyclicBarrier(barriers);
+		ComputePrimeNumbers cnp = new ComputePrimeNumbers();
 		ExecutorService executor = ThreadUtils.fixedThreadPool(barriers);
 		int start = 1;
 		int count = 500000 / barriers;
 		for (int i = 0; i < barriers; i++) {
-			futures.add(executor.submit(
-					new PrimeNumberCallable(new CyclicBarrier(barriers), start, count, new ComputePrimeNumbers())));
+			futures.add(executor.submit(new PrimeNumberCallable(barrier, start, count, cnp)));
 			start = start + count;
 		}
 		futures.forEach(future -> {
