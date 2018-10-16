@@ -13,6 +13,11 @@ public class User {
 		this.userId = userId;
 	}
 
+	/*
+	 * lock.lock() is similar to synchornized block that does not let any 
+	 * other thread enter the code after lock until the the thread that created the lock 
+	 * unlocks the lock
+	 */
 	public void login() {
 		try {
 			System.out.println(Thread.currentThread().getName() + "  : Entered Login");
