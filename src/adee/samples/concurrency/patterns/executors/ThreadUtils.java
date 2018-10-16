@@ -33,9 +33,9 @@ public class ThreadUtils {
 	/*
 	 * Fixed Thread Pool executor fix the number of threads in that thread-pool
 	 */
-	public static ExecutorService fixedThreadPool() {
+	public static ExecutorService fixedThreadPool(int size) {
 		if (fixedThreadPool == null) {
-			fixedThreadPool = Executors.newFixedThreadPool(3);
+			fixedThreadPool = Executors.newFixedThreadPool(size);
 		}
 		return fixedThreadPool;
 	}

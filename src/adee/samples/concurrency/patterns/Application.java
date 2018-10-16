@@ -36,7 +36,7 @@ public class Application {
 
 		ThreadUtils.raiseExceptionFromThreads();
 
-		LauncherService.runMultipleTask();
+		LauncherService.runMultipleTask(3);
 
 		runFutureTask(true);
 
@@ -58,7 +58,7 @@ public class Application {
 
 	private static void shutDownThreadPools() {
 		ThreadUtils.singleThreadPool().shutdown();
-		ThreadUtils.fixedThreadPool().shutdown();
+		ThreadUtils.fixedThreadPool(3).shutdown();
 	}
 
 	private static void runFutureTask(boolean wait) {

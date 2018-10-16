@@ -10,10 +10,10 @@ public class LauncherService {
 		ThreadUtils.singleThreadPool().execute(() -> System.out.println("Launching from a Single Thread Pool"));
 	}
 
-	public static void runMultipleTask() {
+	public static void runMultipleTask(int size) {
 		Runnable task = () -> System.out
 				.println("Launching from a Single Thread Pool " + Thread.currentThread().getName());
-		ExecutorService executor = ThreadUtils.fixedThreadPool();
+		ExecutorService executor = ThreadUtils.fixedThreadPool(size);
 		for (int i = 0; i < 10; i++) {
 			executor.submit(task);
 		}
