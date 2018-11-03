@@ -19,21 +19,42 @@ public class MethodReferenceExample {
 		}
 	};
 
-	public MethodReferenceExample sort() {
-		this.candidates.sort(Comparator.comparing(String::length));
-		return this;
+	public void sortConventional() {
+		this.candidates.sort(new Comparator<String>() {
+
+			@Override
+			public int compare(String o1, String o2) {
+				return o1.length() - o2.length();
+			}
+		});
 	}
 
-	public MethodReferenceExample sortReverse() {
+	public void reverseSortUsingLambda() {
+		this.candidates.sort((String o1, String o2) -> o2.length() - o1.length());
+	}
+
+	public void sort() {
+		this.candidates.sort(Comparator.comparing(String::length));
+	}
+
+	public void sortReverse() {
 		this.candidates.sort(Comparator.comparing(String::length).reversed());
-		return this;
 	}
 
 	public static void main(String[] args) {
-		MethodReferenceExample ref = new MethodReferenceExample().sort();
-		System.out.println(ref.candidates);
+		MethodReferenceExample ref = new MethodReferenceExample();
+		ref.sortConventional();
+		System.out.println("SORT = " + ref.candidates);
+
 		ref.sortReverse();
-		System.out.println(ref.candidates);
+		System.out.println("REVERSE-SORT = " + ref.candidates);
+
+		ref.sort();
+		System.out.println("SORT = " + ref.candidates);
+
+		ref.reverseSortUsingLambda();
+		System.out.println("REVERSE-SORT = " + ref.candidates);
+
 	}
 
 }
