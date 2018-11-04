@@ -17,7 +17,7 @@ public class LambdaClosure {
 		names.add("Baba");
 
 		names = names.stream().filter(p -> {
-			effectivelyFinalInt = 4; // compile time error
+			//effectivelyFinalInt = 4; // compile time error
 			// Local variable effectivelyFinal defined in an enclosing scope must be final
 			// or effectively final
 			effectivelyFinalArr[4] = 0; // is allowed coz for final array reference should not be changed

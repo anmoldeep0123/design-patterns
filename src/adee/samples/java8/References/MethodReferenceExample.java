@@ -2,6 +2,7 @@ package adee.samples.java8.References;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import static java.util.Comparator.comparing;
 import java.util.List;
 
 /*
@@ -45,7 +46,7 @@ public class MethodReferenceExample {
 	}
 
 	public void sort() {
-		this.candidates.sort(Comparator.comparing(String::length));
+		this.candidates.sort(comparing(String::length));
 	}
 
 	public void sort_2() {
@@ -53,7 +54,7 @@ public class MethodReferenceExample {
 	}
 
 	public void sortReverse() {
-		this.candidates.sort(Comparator.comparing(String::length).reversed());
+		this.candidates.sort(comparing(String::length).reversed());
 	}
 
 	public static void main(String[] args) {
@@ -69,7 +70,7 @@ public class MethodReferenceExample {
 
 		ref.reverseSortUsingLambda();
 		System.out.println("REVERSE-SORT = " + ref.candidates);
-		
+
 		ref.sort_2();
 		System.out.println("SORT_2 = " + ref.candidates);
 
