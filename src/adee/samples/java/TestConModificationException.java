@@ -1,6 +1,7 @@
 package adee.samples.java;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +35,22 @@ public class TestConModificationException {
 		iterateAndAddToSet();
 		// iterateAndRemoveFromSet();
 
+		arraysAsListConcurrentModException();
+
+	}
+
+	/*
+	 * Arrays.asList returns Arrays.ArrayList that does not support add or remove
+	 * operation
+	 */
+	private static void arraysAsListConcurrentModException() {
+		List<String> x = Arrays.asList("Anmol-A", "Deep-A", "Qazi-Q");
+		System.out.println(x.getClass().getName());
+		for (String x1 : x) {
+			System.out.println(x1);
+			 x.add("Junk");
+			x.remove("Deep-A");
+		}
 	}
 
 	private static void iterateAndRemoveFromSet() {
@@ -79,7 +96,7 @@ public class TestConModificationException {
 	private static void removeFromSet() {
 		for (String x : set) {
 			System.out.println(x);
-			set.remove("Qazi");
+			set.remove("Qazi-S");
 		}
 	}
 
